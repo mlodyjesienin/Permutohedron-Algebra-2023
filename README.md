@@ -1,1 +1,1 @@
-# Permutohedron-Algebra-2023
+## 1st year project for Linear Algebra II at UKEN Krakow
