@@ -1,0 +1,478 @@
+\documentclass[11pt]{article}
+\usepackage[a4paper,margin=1.1in]{geometry}
+
+\usepackage[colorlinks,citecolor=magenta,linkcolor=black]{hyperref}
+\pdfpagewidth=\paperwidth \pdfpageheight=\paperheight
+\usepackage{amsfonts,amssymb,amsthm,amsmath,eucal,tabu,url}
+\usepackage{pgf}
+ \usepackage{array}
+ \usepackage{pstricks}
+ \usepackage{pstricks-add}
+ \usepackage{pgf,tikz}
+ \usetikzlibrary{automata}
+ \usetikzlibrary{arrows}
+ \usepackage{indentfirst}
+ \pagestyle{myheadings}
+\usepackage{tabularx} 
+\usepackage{enumitem}
+\usepackage{graphicx}
+\graphicspath{.images}
+%*****************************************************************************
+% Style
+
+\let\oriLarge=\Large
+\renewcommand\LARGE{\bfseries\oriLarge}
+\renewcommand\Large{\addvspace{2\baselineskip}\centering}
+\renewcommand\large{\addvspace{2\baselineskip}\centering}
+
+
+%*****************************************************************************
+% Theorems
+
+\theoremstyle{plain}
+\newtheorem{thm}{Theorem}[section]
+\newtheorem{theorem}[thm]{Theorem}
+\newtheorem*{theoremA}{Theorem A}
+\newtheorem*{theoremB}{Theorem B}
+\newtheorem*{theoremC}{Theorem C}
+\newtheorem{lemma}[thm]{Lemma}
+\newtheorem{proposition}[thm]{Proposition}
+\newtheorem{corollary}[thm]{Corollary}
+\newtheorem{conjecture}[thm]{Conjecture}
+
+\theoremstyle{definition}
+\newtheorem{definition}[thm]{Definition}
+\newtheorem{remark}[thm]{Remark}
+\newtheorem{example}[thm]{Example}
+\newtheorem{claim}[thm]{Claim}
+\newtheorem{question}[thm]{Question}
+\newtheorem{problem}[thm]{Problem}
+\newtheorem{fact}[thm]{Fact}
+\newtheorem*{notation}{Notation}
+\newtheorem*{sketch}{Sketch of Proof}
+
+\newtheorem{thevarthm}[thm]{\varthmname}
+\newenvironment{varthm}[1]{\def\varthmname{#1}\begin{thevarthm}}{\end{thevarthm}\def\varthmname{}}
+\newenvironment{varthm*}[1]{\trivlist\item[]{\bf #1.}\it}{\endtrivlist}
+
+%*****************************************************************************
+% Macros
+
+\renewcommand\ge{\geqslant}
+\renewcommand\geq{\geqslant}
+\renewcommand\le{\leqslant}
+\renewcommand\leq{\leqslant}
+\newcommand\longto{\longrightarrow}
+\let\tilde=\widetilde
+\newcommand\numequiv{\equiv_{\rm num}}
+\newcommand\dsupseteq{{\displaystyle\supseteq}}
+\newcommand\be{\begin{eqnarray*}}
+\newcommand\ee{\end{eqnarray*}}
+\newcommand\compact{\itemsep=0cm \parskip=0cm}
+\newcommand{\dl}{\Delta_{Y_\bullet}(L)}
+\newcommand{\inteps}{[0,\epsilon_C(L)]}
+\renewcommand\P{\mathbb P}
+\newcommand\FH{\mathbb H}
+\newcommand\omegalogc{\Omega^1_X(\log C)}
+\newcommand\legendre[2]{\left(\frac{#1}{#2}\right)}
+\newcommand\calo{{\mathcal O}}
+\newcommand\cali{{\mathcal I}}
+\newcommand\calj{{\mathcal J}}
+\newcommand\calk{{\mathcal K}}
+\newcommand\calf{{\mathcal F}}
+\newcommand\call{{\mathcal L}}
+\newcommand\calm{{\mathcal M}}
+\def\field{\C}
+\newcommand\newop[2]{\def#1{\mathop{\rm #2}\nolimits}}
+\newcommand\F{{\mathbb{F}_{n}}}
+
+
+\newcommand\zbiorn{\{1,2,\ldots,n\}}
+\newcommand\B{$[B^i]^n$}
+\newcommand\textg{\textcolor{green}}
+\newcommand\textb{\textcolor{blue}}
+\newcommand{\aalpha}[4]{\alpha_{#1#2}^{#3#4}}
+\newcommand\frakm{{\mathfrak m}}
+\newcommand\frakP{{\mathfrak P}}
+\newcommand\frakL{{\mathfrak L}}
+\newcommand\frakI{{\mathfrak I}}
+\newcommand\ince{{ (\mathfrak P, \mathfrak L )}}
+\newcommand\BB{[B^i]^n\ }
+\newcommand{\ppunktP}[2]{P_{#1#2}}
+\newcommand{\llinel}[2]{l^{#1}_{#2}}
+\newcommand\ffact{Fact\ }
+\newcommand\llemma{Lemma\ }
+\newcommand\bi{B^i\ }
+
+
+\newop\log{log}
+\newop\ord{ord}
+\newop\Gal{Gal}
+\newop\SL{SL}
+\newop\Bl{Bl}
+\newop\mult{mult}
+\newop\mass{mass}
+\newop\div{div}
+\newop\codim{codim}
+\newop\sing{sing}
+\newop\vdim{vdim}
+\newop\edim{edim}
+\newop\Ass{Ass}
+\newop\size{size}
+\newop\reg{reg}
+\newop\satdeg{satdeg}
+\newop\supp{supp}
+\newop\Neg{Neg}
+\newop\Nef{Nef}
+\newop\Nefh{Nef_H}
+\newop\Eff{Eff}
+\newop\Zar{Zar}
+\newop\MB{MB}
+\newop\MBxC{MB\mathit{(x,C)}}
+\newop\NnB{NnB}
+\newop\Bigg{Big}
+\newop\Effbar{\overline{\Eff}}
+\newcommand\eqnref[1]{(\ref{#1})}
+\newcommand{\olc}{\ensuremath{\Omega_X^1(\log C)}}
+\newcommand\marginnote[1]{%
+   {{\small\upshape\sffamily $\langle$...#1...$\rangle$}}
+   \marginpar{$\leftarrow$\raggedright\scriptsize\sffamily #1}}
+
+\newcommand\fbul{\calf_{\bullet}}
+\newcommand\ebul{E_{\bullet}}
+\newcommand\vbul{V_{\bullet}}
+\newcommand\ybul{Y_{\bullet}}
+\newcommand\emin{e_{\min}}
+\newcommand\emax{e_{\max}}
+\newcommand\nuy{\nu_{\ybul}}
+\newcommand\phifbul{\varphi_{\fbul}}
+\newcommand\wtilde[1]{\widetilde{#1}}
+\newcommand\restr[1]{\big|_{#1}}
+
+\newcommand\subm{\underline{m}}
+\newcommand\subn{\underline{n}}
+\newcommand\one{\mathbbm{1}}
+\newcommand\ldk{(\P^2,\calo_{\P^2}(d)\otimes\cali(kZ))}
+\newcommand\ldmi{(\P^2,\calo_{\P^2}(d)\otimes\cali(\subm Z))}
+\newcommand\ldthreem{(\P^2,\calo_{\P^2}(\widetilde{d}-3)\otimes\cali((\widetilde{\subm}-\one)Z)}
+\newcommand\ldmij{(\P^2,\calo_{\P^2}(d-1)\otimes\cali((\subm-\one)Z)}
+\newcommand\alphasubmn{\alpha_{\subm,\subn}}
+\newcommand\mj{m^{(j)}}
+\newcommand\nj{n^{(j)}}
+\newcommand\mji{\mj_i}
+\newcommand\submj{\subm^{(j)}}
+\newcommand\subnj{\subn^{(j)}}
+\newcommand\rru{\rule{1cm}{0cm}}
+\newcommand\eps{\varepsilon}
+\newcommand\alphahat{\widehat\alpha}
+
+\def\keywordname{{\bfseries Keywords}}%
+\def\keywords#1{\par\addvspace\medskipamount{\rightskip=0pt plus1cm
+\def\and{\ifhmode\unskip\nobreak\fi\ $\cdot$
+}\noindent\keywordname\enspace\ignorespaces#1\par}}
+%
+\def\subclassname{{\bfseries Mathematics Subject Classification
+(2020)}\enspace}
+\def\subclass#1{\par\addvspace\medskipamount{\rightskip=0pt plus1cm
+\def\and{\ifhmode\unskip\nobreak\fi\ $\cdot$
+}\noindent\subclassname\ignorespaces#1\par}}
+
+\def\sys{\mathcal{L}}
+\newcommand\rd[1]{\lfloor#1\rfloor}
+
+\begin{document}
+\title{On the Shortest Path between Two Vertices of the Permutation Polytope.}
+\author{Filip Zieli\'nski}
+\date{May 30, 2023}
+\maketitle
+\thispagestyle{empty}
+\begin{abstract}
+After we introduce basic theory of convexity we focus on polyhedron theory, especially well-known Birkhoff-von Neumann Theorem and then Schur-Horn Theorem, both connected with special type of permutation-related polytopes. After that we introduce main theorem of this paper, which is we show our shortest path between two vertices in permutation polytope  finding algorithm. 
+\end{abstract}
+\section*{Introduction}
+We work over real numbers $\mathbb{R}$. Notation is to great extend adopted from \cite{Convexity}.
+\section{Preliminaries}
+\begin{definition}
+    \textbf{Convex combination.}
+    Let $\{ x_{1},...,x_{m} \}$ be a finite set of points from $\mathbb{R}^d$. A Point
+    $$x = \sum_{i=1}^m \alpha_{i}x_{i}$$ where $ \sum_{i=1}^m \alpha_{i} = 1$ and $\alpha_{i}$ is real non-negative number for $i=1,...,m$
+    is called a \textit{convex combination} of $x_{1},...,x_{m}$.
+\end{definition}
+\begin{definition}
+    \textbf{Interval.}
+    Given two distinct points $x,y \in \mathbb{R}^d$, the set
+    $$[x,y] = \{ \alpha x + (1-\alpha) y : 0\leq \alpha \leq 1 \}$$ 
+    of all convex combinations of $x$ and $y$ is called the \textit{interval} with endpoints $x$ and $y$.  
+\end{definition}
+\begin{definition}
+    \textbf{Convex set.}
+    A set $A \subset \mathbb{R}^d$ is called \textit{convex}, provided $[x,y] \subset A$ for any two $x,y \in A.$
+\end{definition}
+\begin{definition}
+    \textbf{Convex hull.}
+    For $A \subset \mathbb{R}^d$, the set of all convex combinations of points from $A$ is called \textit{convex hull} and denoted $conv(A)$.
+\end{definition}
+
+\begin{definition}\label{def Extreme Points}
+\textbf{Extreme points.} Let $A \subset \mathbb{R}^d $ be a set. A point $a \in A$ is called an \textit{extreme point} of $A$ provided for any two points $b,c \in A$  such that $\frac{b+c}{2} = a$ one must have $b = c = a$. The set of all extreme points of $A$ is denoted ex($A$).  
+\end{definition}
+
+\begin{definition} \label{def2}
+\textbf{Polytope.} The convex hull of a finite set of points in $ \mathbb{R}^d$ is called a \textit{polytope}.
+\end{definition}
+Let $c_{1},..., c_{m}$ be vectors from $ \mathbb{R}^d$ and let $\beta_{1}, ... , \beta_{m}$ be real numbers and additionally $\langle \cdot,\cdot \rangle$ be  the standard inner product. The set:
+$$P = \{ x \in \mathbb{R}^d : \langle c_{i},x \rangle \leq \beta_{i},  i=1,..,m\}$$
+is called \textit{polyhedron.}
+\begin{definition}
+    An extreme point of a polyhedron is called a \textit{vertex}.
+\end{definition}
+\begin{Theorem}
+    Let $P \subset \mathbb{R}^d$ be a polyhedron:
+    $$P = \{ x \in \mathbb{R}^d : \langle c_{i},x \rangle \leq \beta_{i},  i=1,..,m\}$$
+    where $c_i \in \mathbb{R}^d$ and $\beta_i \in \mathbb{R}$ for $i=1,..,m$.
+    For $u \in P$ let
+    $$I(u) = \{i:\langle c_{i},u \rangle \leq = \beta_i \}$$
+    be a set of the inequalities that are active on $u$. Then $u$ is a vertex of $P$ if and only if the set of vectors $\{c_i : i \in I(u) \}$ linearly spans the vector space $\mathbb{R}^d$. In particular if $u$ is a vertex of $P$ the set $I(u)$ contains at least d indices: $|I(u)| >= d$
+\end{Theorem}
+\begin{definition}\label{def3} 
+Let $\sigma$ be a permutation of a set $\{1,..,n\}$. The permutation matrix $X^\sigma$ is the $n\times n$ matrix $X^\sigma = \xi^{\sigma}_{ij} : i,j = 1,...,n$ defined as follows:
+$$ \xi^{\sigma}_{ij} =  \begin{array}{cc}
+  1   & \textrm{if } \sigma(j)=i, \\
+ 0    & \textrm{if } \sigma(j)\neq i.
+\end{array}  $$
+\end{definition}
+\begin{notation}
+In this paper permutation $\sigma = \begin{pmatrix}1 & 2 & 3& 4 \\ 3&4&2&1\end{pmatrix}$ will be denoted as $\sigma = (3,4,2,1)$ because we will strictly associate it with a point in $\mathbb{R}^d$. If we will use notation without a comas e.g. $\sigma = (1 2)$ we mean a cycle or in this case a transposition of two elements. These notations may be confusing, but used in specific examples, it should be relatively easy to understand the difference.  
+\end{notation}
+\begin{definition}\label{def4}
+\textbf{Doubly stochastic Matrix.} An  $n \times n $  matrix $M=(\alpha_{ij}) $ is called \textit{doubly stochastic} if it is non-negative and the sum of elements in every row and every columns equals 1:
+\begin{enumerate}
+    \item $ \sum_{i=1}^{n}\alpha_{ij} =1 $ for $j=1,... ,n$,
+    \item $ \sum_{j=1}^{n}\alpha_{ij}=1 $ for $i=1,... ,n$,
+    \item $\alpha_{ij} >0$ for $i,j=1,.. ,n$.
+\end{enumerate}
+
+\end{definition}
+We have the following basic fact.
+\begin{theorem}
+    Every \textit{permutation matrix} is a \textit{doubly stochastic} matrix.
+\end{theorem}
+\section{Birkhoff - von Neumann Theorem}
+The polyhedron $B_{n}$ of all $n \times n$ doubly stochastic matrices is called the \textit{Birkhoff Polytope}.
+We consider an $n \times n $ matrix $X$ as point in $\mathbb{R}^{n^2}$.
+
+\begin{theorem}
+    \textbf{Birkhoff - von Neumann Theorem.} The vertices of Birkhoff Polytope $B_{n}$ are exactly $n\times n$ permutation matrices.
+\end{theorem}
+\begin{proof}
+    First, we will prove the fact, that every permutation matrix is an extreme point of Birkhoff polytope.
+    Let $A=(a_{ij})$  be $n\times n$ permutation matrix, and $B = (b_{ij}),C=(c_{ij})$ are any $n\times n$ doubly stochastic matrices such that:
+    $a = \frac{b+c}{2}$.
+    for exactly $n$ pairs $i,j \in \{1,...,n\}$ we have $a_{ij}=1$. if $a_{ij} = 1$ then $b_{ij} = c_{ij} = 1$. For exactly $n^2-n$ pairs $i,j \in \{1,...,n\}$ we have  $a_{ij}=0$. For those pairs, $b_{ij} = c_{ij} = 0$.
+    So $A,B,C$ have $n$ exact same elements equal to one and $n^2-n$ exact same elements equal to zero. Hence $A,B,C$ have exact same $n^2$ elements, therefore $A=B=C$.
+    Now it suffices to prove that if $X$ is an extreme point of $B_n$ (Birkhoff polytope) $X = X^\sigma$ for some permutation $\sigma$. We prove this by induction on $n$. The case $n=1$ is obvious. Suppose that $n>1$. Let us consider the affine subspace $L \subset \mathbb{R}^{n^2}$ consisting of the $n \times n$ matrices $X = (\xi_{ij})$ such that
+
+    $\sum_{i=1}^n \xi_{ij} = 1$ for $j=1,...,n$ and $\sum_{j=1}^n \xi_{ij} = 1$ for $i=1,...,n$.
+
+    We claim that $dimL = (n-1)^2$. Indeed a point (an $n \times n $ matrix $X$) from $L$ is uniquely determined by an arbitrary choice of the $(n-1)^2$ entries $\xi_{ij}$ for $i,j=1,...,n$ since the remaining entries of $X$ are found as
+        $\xi_{in} = 1 - \sum_{j=1}^{n-1}\xi_{ij}$
+
+        for $i=1,...,n-1$,
+
+    
+    $\xi_{nj} = 1 - \sum_{i=1}^{n-1} \xi_{ij}$ for $j=1,...,n-1$ and
+
+    
+    $\xi_{nn}= (2-n) + \sum_{i,j=1}^{n-1} \xi_{ij}$. 
+
+    
+    In the space $L$ the polytope $B_n$ is defined by $n^2$ linear inequalities $\xi_{ij} >=0$. If $X$ is an extreme point of $B_{n}$ then some $(n-1)^2$ of these inequalities must be active on $X$. In other words $\xi_{ij} = 0$ for some $(n-1)^2$ entries of $X$. Clearly, there cannot be a row containing zeros alone and if every row contained at least two non-zero entries, the total number of zero entries would have been at most $n(n-2) < (n-1)^2$. Therefore there must be a row, say $i_{0}$ with $ \xi_{ij} =0$ for all but one $j=j_0$. Now it is clear that $\xi_{i_0 j_0} = 1$ and that all other entries in $i_0$-th row and $j_0$-th column must be zero. Crossing out the $i_0$-th row and $j_0$-th column, we get an $(n-1) \times (n-1)$ doubly stochastic matrix which must be an extreme point of $B_{n-1}$, so we may apply the induction hypothesis.
+\end{proof}
+\begin{definition}
+    Let us fix a point $x=(\xi_{1},...,\xi_{n})$ in $\mathbb{R}^n$. For a permutation $\sigma$ of the set $\{1,...,n\}$ let $\sigma(x)$ be the vector  $y =(\eta_{1},...,\eta_{n})$ where $\eta_{i} = \xi_{\sigma^-1(i)}$
+    Let $S_{n}$ be the symmetric group of all permutations of the set $\{1,...,n\}$. Let us define the \textit{permutation polytope} $P(x)$ by
+    $$P(x) = conv(\sigma(x) : \sigma \in S_{n})$$
+\end{definition}
+in words: we permute the coordinates of a given vector $x$ in all possible ways and take the convex hull of resulting vectors.
+\begin{definition}
+    Let us interpret $\mathbb{R}^{n^2}$ as the space of $n \times n$ matrices $X$. Let us fix a vector $a \in \mathbb{R}^n$. Consider the linear transformation $T: \mathbb{R}^{n^2} \rightarrow \mathbb{R}^n$ defined by $T(X) = Xa$. 
+\end{definition}
+\begin{lemma}
+    $\sigma(x) = X^\sigma x$, where $X^\sigma$ is the permutation matrix corresponding to $\sigma$.
+\end{lemma}
+\begin{theorem}
+    $T(B_{n}) = P(a)$ where $B_n$ is a Birkhoff Polytope.
+\end{theorem}
+\begin{figure} 
+\caption{Permutation polytope of set $\{1,2,3,4\}$ 
+                                                }
+\bigskip
+\centering
+\includegraphics[scale=0.6]{images/permutohedron-4.png}
+\end{figure}
+Now we will introduce definitions and lemmas required for next theorem regarding permutation polytope. These definitions are very basic, they were put in here only as a reminder. 
+\begin{definition}
+    Real square matrix $M$ is called \textit{orthogonal matrix} if and only if $MM^T=M^{T}M=I$. Orthognal matrix can be also defined as matrix whose columns and rows are orthonormal vectors.
+\end{definition}
+\begin{lemma}
+    let $U$ be real orthogonal matrix such as $U=(\xi_{ij})$. Then $M = (\xi^{2}_{ij})$ is an doubly stochastic matrix.
+\end{lemma}
+
+\begin{definition}
+    Real square matrix $M$ is called \textit{symmetric matrix} if and only if $M = M^T$ 
+\end{definition}
+\begin{lemma}
+    Symmetric matrices are always diagonalizable
+\end{lemma}
+\begin{lemma}
+    Eigenvectors of symmetric matrix are orthogonal vectors
+\end{lemma}
+\begin{corollary}
+    If matrix $M$ is symmetric then:
+    $$ M = UDU^T$$
+    for some orthogonal matrix $U$.
+\end{corollary}
+\section{Schur-Horn Theorem.}
+\begin{theorem}\cite{Convexity}
+    \textbf{Schur-Horn Theorem.} Let us fix a positive integer $n$ and real numbers $\lambda_{1},...,\lambda{n}$. Let $l=(\lambda_{1},...,\lambda{n}) \in \mathbb{R}^n$ be a vector.
+    \begin{enumerate}
+        \item [1.] Let $A=(\alpha_{ij})$ be a $n\times n$ real symmetric matrix with the eigenvalues $\lambda_{1},...,\lambda_{n}$. Then the diagonal $a = (\alpha_{11},...,\alpha_{nn}$ lies in the permutation polytope $P(l): a \in P(l)$ (Schur's Theorem).
+        \item[2.] Let $a \in P(l)$ be a point from the permutation polytope. Then there exists an $n \times n$ real symmetric matrix $A=(\alpha_{ij})$ with the eigenvalues $\lambda_{1},...,\lambda_{n}$ and the diagonal $a = (\alpha_{11},...,\alpha_{nn})$
+    \end{enumerate}
+\end{theorem}
+We will here only present proof of part 1 of this theorem which is Schur's theorem.
+\begin{proof}
+    Let D = $diag(\lambda_{1},...,\lambda_{n})$ be diagonal matirx. Suppose that $A=(\alpha_{ij})$ is a real symmetric $n\times n$ matrix with eigenvalues $\lambda_{1},...,\lambda_{n}$. Then the $A=UDU^T$ for some orthogonal matrix $U=(\xi_{ij})$. Hence the diagonal entries of $A$ can be written as
+    $$ \alpha_{ij} = \sum_{i=1}^n\xi^{2}_{ki}\lambda_{i}.$$
+    Let $B = (\beta_{ij})$ be the $n\times n$ matrix such that $\beta_{ij} = \xi^{2}_{ij}$. Hence we may write $a = Bl$ where $a$ and $l$ are interpreted as $n$-columns of real numbers. Since $U$ is an orthogonalmatrix, the matrix B is doubly stochastic. By the Birkhoff - von Neumann Theorem, B can be written as a convex combination of permutation matrices $X^\sigma, \sigma \in S_{n}$. Therefore we conlude that $a$ is a convex combination of $\sigma(l) = X^\sigma l$, that is, $a \in P(l)$
+\end{proof}
+\section{Shortest path between two vertices of permutation polytope}
+Now we will look at a permutation polyhedron from different perspective.
+\begin{definition}
+    \textbf{Metric space.}
+    Ordered pair $(M,d)$ where $M$ is a set and $d: M \times M \rightarrow [0, +\infty)$ is a function  such that for all $x,y,z \in M$:
+    \begin{enumerate}
+        \item[1.] $d(x,y)=0 \Leftrightarrow x=y $
+        \item[2.] $d(x,y) \leq d(x,z) + d(y,z)$    
+    \end{enumerate}
+    is called a \textit{metric space}.
+\end{definition}
+\begin{definition}
+    \textbf{Graph}
+    ordered pair $G=(V,E)$ is called a \textit{graph}. $V = \{v_1,...,v_n \}$ is a set of an elements called a vertices and $E = \{ e_1,...e_m \} $ where $e_i = \{v_j,v_l\} \subset V$ for some $j,l = 1,...n$, $j\neq l$ for  $i=1,...,m$.  
+\end{definition}
+Graphs are easily connected with geometrical structure, therefore we will try now to look at permutation polyhedron as a graph. The vertices and edges of polyhedron will become vertices and edges of graph. 
+\begin{definition}
+    \textbf{Path.}
+    Let $G = (V,E)$ be a graph. A path $P$ between vertices $v_{1},v_{n+1} \in V$ is a sequence of edges $P = (e_{1},...,e_{n}), e_{i} \in E$ for $i=1,..,n$ such that:
+    \begin{enumerate}
+        \item[1.] $e_{1} = (v_{1},v_{2})$ for some $v_{2} \in V$,
+        \item[2.] $e_{n} = (v_n,v_{n+1})$ for some $v_{n}$
+        \item[3.] $e_{i} \cap e_{i+1} = v{i+1}$ for $i=1,...n-1$
+        \item[3.] $e_{i} \cap e{j} \neq \emptyset \Rightarrow i=j$ or $i=j+1$ or $i = j-1$ for $i,j =2,...,n-1$
+    \end{enumerate}
+    length of path $P$ is simply number of elements in sequence. Here length is equal to $n$.
+\end{definition}
+In words: path is just possible way of getting from one vertex to another using existing edges, without using the same vertex more than once. The length of a path is the number of edges we use.
+If graph is connected (there exist path between every two vertices) for every pair of vertices we can find the length of the shortest path (or many paths, sharing the same length). We assume that path between vertices $v$ and $v$ has always the length of $0$.
+\begin{definition}
+     A graph is said to be connected if every pair of distinct vertices $v_i,v_j$ in the graph exists a path $ (e_{k},...,e_{n})$ such that $v_i \in e_{k}$ and $v_j\in e_{n}$.
+\end{definition}
+\begin{definition}
+    Let $G = (V,E)$ be a connected graph. We define $d: V \times V \rightarrow \mathbb{N} \cup \{0\} $ such that $d(v_{1},v{2}) = n$ where $n$ is the length of shortest path between vertices $v_1,v_2$ for every $v_1,v_2$.
+\end{definition}
+\begin{theorem}
+    $(V,d)$ is a metric space. 
+\end{theorem}
+\begin{proof}
+    First condition of metric space $d(v_{1},v_{2}) = 0 \Leftrightarrow v_{1} = v_{2}$ is fulfilled because the implication from right to left is given by definition and implication from left to right is obvious due to the fact that any path from $v_1$ to $v_2$ for $v_1 \neq v_2$ has at least length of $1$.
+    Second condition of metric space can be replaced with two simpler ones. 
+    \begin{enumerate}
+        \item[2a.] $d(v_1,v_2) = d(v_2,v_1)$ for every $v_1, v_2 \in V$
+        \item[2b.] $d(v_1,v_2) \leq d(v_1,v_2) + d(v_2,v_3)$ for every $v_1,v_2,v_3 \in V.$
+    \end{enumerate}
+    Usual definition of metric space uses those two conditions, not the one we used, but it is easy to see that those two conditions imply the second  statement of definition presented in this paper. First one is condition of being symmetric and second one is called triangle inequality.
+    
+    If $d(v_1,v_2) = n$ therefore there exists path $P = (e_1,...e_n)$ of length $n$. Consider path $P' = (e_n,...,e_1)$. It meets all the requirements of path and also has the length equal to $n$. Hence $d(v_2,v_1) = n$.
+    
+    We will prove the last condition by proof by contradiction. Assume $d(v_1,v_2) = n$ and $d(v_2,v_3) = m $ and $d(v_3,v_1) =k$ such that $ n > m+k$. 
+    Therefore exist path $P_{12} = (e_1,...,e_n)$, path $P_{13} = (e_1',...e_m')$ and path $P_{32} = (e_1'',...,e_k'')$. Hence we can create $P' = (e_1',...,e_m',e_1'',...,e_k'')$ which is either a path of length $k+m <n$ or by removing some elements of it, we can create a path of length $ l < k+m < n$. Hence path $P_{12}$ is not the shortest path between vertices $v_1,v_2$, which is a contradiction with our earlier assumption.
+    
+\end{proof}
+\begin{problem}
+    Let $v_1,v_2$ be any two vertices on $n$-dimensional permutation polytope and $d$ be a metric defined as earlier. What is $d(v_1,v_2)$?
+\end{problem}
+First, we need to think about the problem when two vertices of permutation polytope are connected.
+\begin{theorem}
+    let $v_1,v_2$ be two vertices on $n$-dimensional permutation polytope represented respectfully by permutation $\sigma_1, \sigma_2$. There exists an edge between $v_1,v_2$ if and only if  $\sigma_1 = \sigma_2 \circ \sigma_3$ where $\sigma_3$ is a transposition of two next elements $(i i+1)$, $i = 1,...,n-1$. 
+\end{theorem}
+\begin{proof}
+    We will skip the proof of this fact. It can be found in \cite{Permutahedron MIMUW}.
+\end{proof}
+In words: consider permutation polytope created by all permutations of point $x = (1,2,3,4)$. If we look at vertex $v_1 = (3,2,1,4)$ it is directly connected with 3 other vertices which are $v_1$ composed with transpositions $(1 2), (2 3), (3 4) $. For example by composition with $(3 4)$ we get vertex $v_2 = (4,2,1,3)$ which is directly connected with vertex $v_1$.
+Now we have to count how many transpositions between two next elements we have to use to get from one vertex to another. 
+Consider $n \times n$ permutation matrix $X^\sigma$ which is a representation of permutation $\sigma$. Composition of $\sigma$ with a transposition $(i j)$, for $i,j =1,...,n$, might be represented with switching $i$-th and $j$-th row in $X^\sigma$.
+\begin{example}
+    if n = 4 and $\sigma =(4,2,1,3)$ then:
+    $$X^\sigma = \begin{bmatrix}
+    0 & 0 & 1 & 0 \\ 0 & 1 & 0 & 0 \\ 0 & 0 & 0 & 1 \\ 1 & 0 & 0 & 0\end{bmatrix}$$
+    then composition of $\sigma$ with $(1 2)$ is $\sigma' = (4,1,2,3)$ represented by matrix $$ X^{\sigma'} = \begin{bmatrix}
+        0&1&0&0\\0&0&1&0\\0&0&0&1\\1&0&0&0
+    \end{bmatrix}$$
+    We can see that $X^{\sigma'}$ is $X^\sigma$ with 1-st and 2-nd row switched.
+\end{example}
+Consider two vertices $v_1,v_2$ which are represented respectfully by  permutation of $n$-elements set $\sigma_1,\sigma_2$. $\sigma_1$ is represented by some $n \times n$ $X^{\sigma_1}= (a_{ij}), i,j=1,..,n$ permutation matrix and $\sigma_2$ is represented by some $n \times n$ 
+$X^{\sigma_2} = (b_{ij}), i.j=1,...,n$ permutation matrix.
+Consider first row of $X^{\sigma_1}$. There exists exactly one $j$ from $j=1,...,n$ such that $a_1j = 1$ and there exists exactly one $i$ from $i = 1,...,n$ such that $b_{ij} = 1$. If we want to "transform" $X^{\sigma_1}$ into $X^{\sigma_2}$ only by switching adjacent rows, then we must push $i$-th row of $X^{\sigma_1}$ to the top, to match the first row of $X^{\sigma_2}$. Hence first we need to switch the $i$-th row with $i-1$-th row, then $i-1$-th row with $i-2$-th row, and so on until currently $i-th$ row will be first, matching the first row in second matrix. To do this we have to use total of $i-1$ transpositions. Then we can cross out the first row and $j$-th column and we can repeat the process again on $(n-1) \times (n-1)$ matrix. 
+\begin{example}
+    Consider $\sigma_1 = (3,4,2,1)$ and $\sigma_2 = (2,4,1,3)$. Therefore:
+    
+    $X^{\sigma_1} = \begin{bmatrix}
+    0 & 0 & 0 & 1 \\ 0 & 0 & 1 & 0 \\ 1 & 0 & 0 & 0 \\ 0 & 1 & 0 & 0\end{bmatrix}$ and $X^{\sigma_2} = \begin{bmatrix}
+    0 & 0 & 1 & 0 \\ 1 & 0 & 0 & 0 \\ 0 & 0 & 0 & 1 \\ 0 & 1 & 0 & 0\end{bmatrix}$
+    $a_{14}=1$ and $b_{34} = 1$ so we need to push 3-rd row of $X^{\sigma_2}$ to the top. To do this we have to compose $X^{\sigma_2}$ first with transposition $(2 3)$ and second with transposition $(1 2)$. 
+    $\sigma_2' = \sigma_2 \circ (2 3) = (3,4,1,2)$ . 
+    $X^{\sigma_2'} = \begin{bmatrix}
+        0 & 0 & 1 & 0 \\ 0 & 0 & 0 & 1 \\ 1 & 0 & 0 & 0 \\ 0 & 1 & 0 & 0
+    \end{bmatrix}$
+    As you can see by composing matrix with transposition $(2 3)$ we only swapped 2-nd and 3-rd row. 
+      $\sigma_2'' = \sigma_2' \circ (1 2)$. 
+    $X^{\sigma_2''} = \begin{bmatrix}
+        0 & 0 & 0 & 1 \\ 0 & 0 & 1 & 0 \\ 1 & 0 & 0 & 0 \\ 0 & 1 & 0 & 0
+    \end{bmatrix}$
+    Now we have after two swaps we have the same first row in $X^{\sigma_1}$ and $X^{\sigma_2''}$ therefore we can cross out the first row and fourth column and repeat algorithm.
+    $$ X^{\sigma_1}_2 = \begin{bmatrix}
+     0 & 0 & 1  \\ 1 & 0 & 0  \\ 0 & 1 & 0 \end{bmatrix} , X^{\sigma_2}_2 = \begin{bmatrix}
+    0 & 0 & 1  \\ 1 & 0 & 0  \\ 0 & 1 & 0 
+    \end{bmatrix}$$
+    If the remaining matrices weren't exact same we would repeat given algorithm until two matrices become identical. Now we can count how many transposition we did have to make, in this case it was only two, $(2 3),(1 2)$. Hence there exist a path between $v_1 = (3,4,2,1)$ and $v_2 = (2,4,1,3)$ of length $2$. With this algorithm we can easily track down how this path exactly looks, in this case we started from $v_2 $, by transposition $(2,3)$ we travelled to $v = (3,4,1,2)$ and then using transposition $(1,2)$ we went to $(3,4,2,1) = v_1$. 
+  
+\end{example}
+\begin{theorem} 
+    \textbf{Main Theorem.}
+    The path-finding algorithm presented,  finds always the path with the shortest length possible. 
+\end{theorem}
+\begin{proof}
+    Notice, that by transporting one row to the top, we do not change the order between other rows, which means that if we move $i$-th row to the top, then for every $k,l = 1,...,n$ such that $i\neq k, i\neq l$ if $k>l$ then after $i$-th row reaches the top the row representing the old $k$-th row is still below the row representing the old $l$-th row. Using that, and the fact that if we want to transform one matrix to the other we need to somehow get first row to be the same, we can see that there is no faster way to do it.  
+\end{proof}
+
+There are several interesting problems regarding permutation polytope. Even in the shortest path finding algorithms field there are still questions unanswered, for example how many paths share exact same shortest length between two vertices. We can clearly see that we can obtain another path by alternating algorithm, to push the rows to the bottom instead to the top, but we cannot be sure that that is all what is left. 
+Permutation polytope is very interesting structure because it shows the deep connection between algebraic structures and combinatorics. 
+
+\section*{Acknowledgments}
+\begin{thebibliography}{000}
+\bibitem{Convexity}
+Alexander Barvinok. \emph{A Course in Convexity} 
+\bibitem{Permutahedron MIMUW}
+G. Lancia, P. Serafini. \emph{Compact Extended Linear Programming Models}
+
+\bibitem{Permutahedron v2}
+Micheal X. Goemans. \emph{Smallest Compact Forumlation for the Permutahedron}
+
+
+
+
+\bigskip
+\nopagebreak
+\end{thebibliography}
+\end{document}

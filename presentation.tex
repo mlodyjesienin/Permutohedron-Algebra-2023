@@ -1,0 +1,326 @@
+\documentclass{beamer}
+\usepackage[utf8]{inputenc}
+%\usepackage[a4paper,margin=1.1in]{geometry}
+%\usepackage[colorlinks,citecolor=magenta,linkcolor=black]{hyperref}
+%\pdfpagewidth=\paperwidth \pdfpageheight=\paperheight
+%\usepackage{amsfonts,amssymb,amsthm,amsmath,eucal,tabu,url}
+\usepackage{amsmath}
+\usepackage{pgf}
+ \usepackage{array}
+ \usepackage{pstricks}
+ \usepackage{pstricks-add}
+ \usepackage{pgf,tikz}
+ \usetikzlibrary{automata}
+ \usetikzlibrary{arrows}
+ \usepackage{indentfirst}
+ %\pagestyle{myheadings}
+\usepackage{tabularx} 
+\usepackage{enumitem}
+
+\usepackage{amsfonts,amssymb,amsthm,amsmath,eucal,tabu,url}
+ \usetikzlibrary{arrows}
+
+
+
+
+
+\setbeamertemplate{theorems}[numbered]
+\theoremstyle{plain}
+\newtheorem{thm}{Theorem}[section] %\thethm
+%\newtheorem{theorem}[thm]{Theorem}[section]
+\newtheorem*{theoremA}{Theorem A}
+\newtheorem*{theoremB}{Theorem B}
+\newtheorem*{theoremC}{Theorem C}
+%\newtheorem{Example}{Example}
+\newtheorem{proposition}[thm]{Proposition}
+%\newtheorem{corollary}[thm]{Corollary}
+\newtheorem{conjecture}[thm]{Conjecture}
+
+\theoremstyle{definition}
+\newtheorem{defi}[thm]{Definition}
+\newtheorem{remark}[thm]{Remark}
+%\newtheorem{example}[thm]{Example}
+\newtheorem{claim}[thm]{Claim}
+\newtheorem{emma}[thm]{Lemma}
+\newtheorem{question}[thm]{Question}
+%\newtheorem{problem}[thm]{Problem}
+%\newtheorem{fact}[thm]{Fact}
+\newtheorem*{notation}{Notation}
+\usetheme{Madrid}
+\usecolortheme{default}
+\newtheorem{conj}{Conjecture}
+
+\newcommand\zbiorn{\{1,2,\ldots,n\}}
+\newcommand\B{$[B^i]^n$}
+\newcommand\textg{\textcolor{green}}
+\newcommand\textb{\textcolor{blue}}
+\newcommand{\aalpha}[4]{\alpha_{#1#2}^{#3#4}}
+\newcommand\frakm{{\mathfrak m}}
+\newcommand\frakP{{\mathfrak P}}
+\newcommand\frakL{{\mathfrak L}}
+\newcommand\frakI{{\mathfrak I}}
+\newcommand\ince{{ (\mathfrak P, \mathfrak L )}}
+\newcommand\BB{[B^i]^n\ }
+\newcommand{\ppunktP}[2]{P_{#1#2}}
+\newcommand{\llinel}[2]{l^{#1}_{#2}}
+\newcommand\ffact{Fact\ }
+\newcommand\llemma{Lemma\ }
+\newcommand\bi{B^i\ }
+
+\author{Filip Zieliński}
+
+\institute{
+UKEN Kraków
+}
+
+\date{11.01.2024}
+
+\title{On the Shortest Path between two Vertices in Permutation Polytope }
+
+\begin{document}
+
+\titlepage
+\newpage
+\section{Introduction.}
+\begin{frame}{Definitions}
+    \begin{definition}\label{def Extreme Points}
+    \textbf{Extreme points.} Let $A \subset \mathbb{R}^n $ be a set. A point $a \in A$ is called an \textit{extreme point} of $A$ provided for any two points $b,c \in A$  such that $\frac{b+c}{2} = a$ one must have $b = c = a$. The set of all extreme points of $A$ is denoted ex($A$).  
+    \end{definition}
+    \pause 
+    \begin{definition} \label{def2}
+    \textbf{Polytope.} The convex hull of a finite set of points in $ \mathbb{R}^n$ is called a \textit{polytope}.
+    \end{definition}
+    \begin{definition}
+         \textbf{Polyhedron}. Let $c_{1},..., c_{m}$ be vectors from $ \mathbb{R}^n$ and let $\beta_{1}, ... , \beta_{m}$ be real numbers and additionally $\langle \cdot,\cdot \rangle$ be  the standard inner product. The set:
+    $$P = \{ x \in \mathbb{R}^n : \langle c_{i},x \rangle \leq \beta_{i},  i=1,..,m\}$$
+    is called \textbf{polyhedron.}
+    \end{definition}
+    An extreme point of a polyhedron is called a \textit{vertex}
+   
+\end{frame}
+\begin{frame}{Extreme Points Theorem}
+    \begin{notation}
+    An extreme point of a polyhedron is called a \textit{vertex}.
+\end{notation}
+\begin{Theorem}
+    Let $P \subset \mathbb{R}^n$ be a polyhedron:
+    $$P = \{ x \in \mathbb{R}^n : \langle c_{i},x \rangle \leq \beta_{i},  i=1,..,m\}$$
+    where $c_i \in \mathbb{R}^n$ and $\beta_i \in \mathbb{R}$ for $i=1,..,m$.
+    For $u \in P$ let
+    $$I(u) = \{i:\langle c_{i},u \rangle  = \beta_i \}$$
+    be a set of the inequalities that are active on $u$. Then $u$ is a vertex of $P$ if and only if the set of vectors $\{c_i : i \in I(u) \}$ linearly spans the vector space $\mathbb{R}^n$. In particular if $u$ is a vertex of $P$ the set $I(u)$ contains at least n indices: $|I(u)| \geq n$
+
+\end{Theorem}
+\end{frame}
+\section{Permutation Polytope}
+\begin{frame}{Permutation Polytope} 
+    \begin{definition}
+    Let us fix a point $x=(\xi_{1},...,\xi_{n}) \in \mathbb{R}^n$. For a permutation $\sigma$ of the set $\{1,...,n\}$ let $\sigma(x)$ be the vector  $y =(\eta_{1},...,\eta_{n})$ where $\eta_{i} = \xi_{\sigma^-1(i)}$
+    Let $S_{n}$ be the symmetric group of all permutations of the set $\{1,...,n\}$. Let us define the \textit{permutation polytope} $P(x)$ by
+    $$P(x) = conv(\sigma(x) : \sigma \in S_{n})$$
+    \end{definition}
+    in words: we permute the coordinates of a given vector $x$ in all possible ways and take the convex hull of resulting vectors.
+    
+\end{frame}
+\begin{frame}{Permutohedron}
+    \begin{theorem}
+        Permutation Polytope $P(x)$ where $x = (1,2,...,n) \in \mathbb{R}^n$ lies in a $n-1$ dimensional affine subspace of euclidan $\mathbb{R}^n$ space.  
+    \end{theorem}
+    \begin{definition}
+        Permutation Polytope $P(x)$ where $x = (1,...,n) \in \mathbb{R}^n$ is called $Permutohedron$.
+    \end{definition}
+    \begin{theorem}
+        Every permutation is a vertex of Permutohedron.
+    \end{theorem}
+
+\end{frame}
+\begin{frame}{Permutohedron of point $x = (1,2,3)$}
+    \centering
+    \includegraphics[scale=0.28]{permutohedron-3.png}
+\end{frame}
+\begin{frame}{Permutohedron of point $x = (1,2,3,4)$}
+    \centering
+    \includegraphics[scale=0.35]{permutohedron-4.png}
+\end{frame}
+\begin{frame}{Permutohedron of point $x = (1,2,3,4,5)$}
+    \centering
+    \includegraphics[scale=0.29]{permutohedron-5.png}
+\end{frame}
+\section{Edges of Permutohedron.}
+\begin{frame}{Facets and Faces of Polyhedron}
+    \begin{recall}
+        Let $P$ be a polyhedron defined as earlier. For $u \in P$ we define a set inequalities that are active on $u$ as following:
+        $$I(u) = \{i:\langle c_{i},u \rangle  = \beta_i \}$$
+    \end{recall}
+    \begin{definition}
+        \textbf{Face.} Let $P \subset \mathbb{R}^n$ be a polyhedron. Let $F \subset P$ be a set of all points $u \in P$ such that some $i_1,...,i_k \in I(u)$ for all u. Set $F$ is called a Face. by dimension of a Face we understand $d = n - dim(span(c_{i_1},..,c_{i_k}))$ 
+    \end{definition}
+\end{frame} 
+\begin{frame}{Facets and Faces of Polyhedron}
+    \begin{theorem}
+        Every face of Polyhedron is a Polyhedron.
+    \end{theorem}
+    \textbf{Proposition/Definition}
+        Face of $n-1$ dimension is called a \textit{Facet.} \\
+        Face of $1$ dimension is called an \textit{Edge.} \\
+        Face of $0$ dimension is a \textit{Vertex}. \\
+        Every \texit{Edge} contains exactly two vertices.\\
+        If there exists and edge between two vertices then the vertices are called \textit{adjacent.} 
+\end{frame}
+\begin{frame}{Edges of Permutohedron}
+    \begin{theorem}
+        Let $x_1,x_2 \in \mathbb{R}^n$ be two vertices of Permutohedron associated with permutations $\sigma_1,\sigma_2$. There is an edge between $x_1$ and $x_2$, which means they  are adjacent if and only if there exist transposition (permutation) $\sigma_{i} = (i$ $i+1)$ such that $\sigma_{1} = \sigma_{2} \circ \sigma_i$.
+    \end{theorem}
+    \pause
+    \begin{definition}
+        Let $[n] = \{1,...,n\}$ be a set of $n$ first natural numbers.
+        Set of points $x \in \mathbb{R}^n$ fulfilling $2^n - 2$ inequalities and one equality:
+
+           $$ \sum_{i \in J} x_i \geq \frac{|J|(|J|+1)}{2}, J \subset [n], J \neq \emptyset, J \neq  [n] $$
+
+           $$ \sum_{i=1}^{n} x_i = \frac{n(n+1)}{2} $$
+           is a Permutohedron.
+    \end{definition}
+\end{frame}
+\begin{frame}{Example}
+\begin{Example}
+$x = (3,4,1,2) \in \mathbb{R}^4$ \\
+adjacent vertices to the vertex $x$ are:\\ 
+$x_1 = x \circ (1$ $2) = (3,4,2,1)$  \\
+$x_2 = x \circ (2$ $3) = (2,4,1,3)$ \\
+$x_3 = x \circ (3$ $4) = (4,3,1,2)$ 
+\end{Example}  
+\end{frame}
+\begin{frame}{Permutohedron of point $x = (1,2,3,4)$ }
+    \centering
+    \includegraphics[scale=0.35]{permutohedron-4.png}
+\end{frame}
+
+\section{The Shortest Path between Two Vertices of Permutohedron}
+\begin{frame}{Adjacent Vertices as Matrices}
+     $\sigma = (2,4,3,1)$, 
+     $X^{\sigma} =\begin{bmatrix}
+        0 & 0 & 0 & 1 \\ 1 & 0 & 0 & 0 \\ 0 & 0 & 1 & 0 \\ 0 & 1 & 0 & 0
+    \end{bmatrix} $ \\ \vspace{0.3cm}
+    \pause
+    $(2,4,3,1) \circ (1$ $2) = (1,4,3,2)$ \\ \vspace{0.3cm}
+    $\begin{bmatrix}
+        \mathbf{0} & 0 & 0 & \mathbf{1} \\ \mathbf{1} & 0 & 0 & \mathbf{0} \\ \mathbf{0} & 0 & 1 & \mathbf{0} \\ \mathbf{0} & 1 & 0 & \mathbf{0}
+    \end{bmatrix}  \stackrel{\text{(1 2)}}{\longrightarrow} \begin{bmatrix}
+        \mathbf{1} & 0 & 0 & \mathbf{0} \\ \mathbf{0} & 0 & 0 & \mathbf{1} \\ \mathbf{0} & 0 & 1 & \mathbf{0} \\ \mathbf{0} & 1 & 0 & \mathbf{0}
+    \end{bmatrix}
+    $
+    
+\end{frame}
+\begin{frame}{Adjacent Vertices as Matrices}
+     $\sigma = (2,4,3,1)$, 
+     $X^{\sigma} =\begin{bmatrix}
+        0 & 0 & 0 & 1 \\ 1 & 0 & 0 & 0 \\ 0 & 0 & 1 & 0 \\ 0 & 1 & 0 & 0
+    \end{bmatrix} $ \\ \vspace{0.3cm}
+    $(2,4,3,1) \circ (1$ $2) = (1,4,3,2)$ \\ \vspace{0.3cm}
+    $\begin{bmatrix}
+        \mathbf{0} &  \mathbf{0} &  \mathbf{0} & \mathbf{1} \\ \mathbf{1} &  \mathbf{0} &  \mathbf{0} & \mathbf{0} \\ 0 & 0 & 1 & 0 \\ 0 & 1 & 0 & 0
+    \end{bmatrix}  \stackrel{\text{(1 2)}}{\longrightarrow} \begin{bmatrix}
+        \mathbf{1} &  \mathbf{0} &  \mathbf{0} & \mathbf{0} \\ \mathbf{0} &  \mathbf{0} &  \mathbf{0} & \mathbf{1} \\ 0 & 0 & 1 & 0 \\ 0 & 1 & 0 & 0
+    \end{bmatrix}
+    $
+    
+\end{frame}
+\begin{frame}{Adjacent vertices to vertex $(2,4,3,1)$}
+     $(2,4,3,1) \circ (1$ $2) = (1,4,3,2)$ \\ \vspace{0.3cm}
+    $\begin{bmatrix}
+        \mathbf{0} &  \mathbf{0} &  \mathbf{0} & \mathbf{1} \\ \mathbf{1} &  \mathbf{0} &  \mathbf{0} & \mathbf{0} \\ 0 & 0 & 1 & 0 \\ 0 & 1 & 0 & 0
+    \end{bmatrix}  \stackrel{\text{(1 2)}}{\longrightarrow} \begin{bmatrix}
+        \mathbf{1} &  \mathbf{0} &  \mathbf{0} & \mathbf{0} \\ \mathbf{0} &  \mathbf{0} &  \mathbf{0} & \mathbf{1} \\ 0 & 0 & 1 & 0 \\ 0 & 1 & 0 & 0
+    \end{bmatrix}$  \\ \vspace{0.3cm}
+    $(2,4,3,1) \circ (2$ $3) = (3,4,2,1)$ \hspace{1.7cm} $(2,4,3,1) \circ (3$ $4) = (2,3,4,1)$  \\ \vspace{0.3cm}
+    $\begin{bmatrix}
+       0 &  0 &  0 & 1 \\ \mathbf{1} &  \mathbf{0} &  \mathbf{0} & \mathbf{0} \\\mathbf{0} &  \mathbf{0} &  \mathbf{1} & \mathbf{0}\\ 0 & 1 & 0 & 0
+    \end{bmatrix}  \stackrel{\text{(2 3)}}{\longrightarrow} \begin{bmatrix}
+        0 & 0 & 0 & 1 \\ \mathbf{0} &  \mathbf{0} &  \mathbf{1} & \mathbf{0} \\\mathbf{1} &  \mathbf{0} &  \mathbf{0} & \mathbf{0} \\ 0 & 1 & 0 & 0
+    \end{bmatrix}$\hspace{0.5cm} $\begin{bmatrix}
+        0 & 0 & 0 & 1 \\ 1 & 0 & 0 & 0 \\ \mathbf{0} &  \mathbf{0} &  \mathbf{1} & \mathbf{0} \\ \mathbf{0} &  \mathbf{1} &  \mathbf{0} & \mathbf{0} 
+    \end{bmatrix} \stackrel{\text{(3 4)}}{\longrightarrow}   \begin{bmatrix}
+        0 & 0 & 0 & 1 \\ 1 & 0 & 0 & 0 \\ \mathbf{0} &  \mathbf{1} &  \mathbf{0} & \mathbf{0} \\ \mathbf{0} &  \mathbf{0} &  \mathbf{1} & \mathbf{0} 
+    \end{bmatrix}$\vspace{0.3cm}
+\end{frame}
+\begin{frame}{The Shortest Path between Two Vertices of Permutohedron}
+    $\sigma_1 = (2,4,3,1) \hspace{3cm} \sigma_2 = (2,3,1,4)$ \\ \vspace{0.3cm}
+    $X^{\sigma_1} = \begin{bmatrix}
+        0 & 0 & 0 & 1 \\ 1 & 0 & 0 & 0 \\ \alt<2->{\mathbf{0}}{0} & \alt<2->{\mathbf{0}}{0} & \alt<2->{\mathbf{1}}{1} & \alt<2->{\mathbf{0}}{0} \\ 0 & 1 & 0 & 0
+    \end{bmatrix} \hspace{2cm} X^{\sigma_2} = \begin{bmatrix}
+        \alt<2->{\mathbf{0}}{0} & \alt<2->{\mathbf{0}}{0} & \alt<2->{\mathbf{1}}{1} & \alt<2->{\mathbf{0}}{0} \\ 1 & 0 & 0 & 0 \\ 0 & 1 & 0 & 0 \\ 0 & 0 & 0 & 1
+    \end{bmatrix} $ \\ \vspace{0.3cm}
+    \visible<3-> { 
+    $\begin{bmatrix}
+        0 & 0 & 0 & 1 \\ 1 & 0 & 0 & 0 \\ \textbf{0} & \textbf{0} & \textbf{1} & \textbf{0} \\ 0 & 1 & 0 & 0 
+        \end{bmatrix} \stackrel{\text{(2 3)}}{\longrightarrow} \begin{bmatrix}
+        0 & 0 & 0 & 1 \\ \textbf{0} & \textbf{0} & \textbf{1} & \textbf{0} \\ 1 & 0 & 0 & 0 \\ 0 & 1 & 0 & 0
+        \end{bmatrix} \stackrel{\text{(1 2)}}{\longrightarrow} 
+        \begin{bmatrix}
+        \textbf{0} & \textbf{0} & \textbf{1} & \textbf{0} \\ 0 & 0 & 0 & 1  \\ 1 & 0 & 0 & 0 \\ 0 & 1 & 0 & 0
+        \end{bmatrix}$
+    }
+    
+    
+    
+\end{frame}
+\begin{frame}{The Shortest Path between Two Vertices of Permutohedron}
+    $\begin{bmatrix}
+        0 & 0 & 1 & 0 \\ 0 & 0 & 0 & 1  \\ \mathbf{1} & \mathbf{0} & \mathbf{0} & \mathbf{0} \\ 0 & 1 & 0 & 0
+        \end{bmatrix} \hspace{2cm} X^{\sigma_2} = \begin{bmatrix}
+       0 & 0 & 1 & 0 \\ \mathbf{1} & \mathbf{0} & \mathbf{0} & \mathbf{0} \\ 0 & 1 & 0 & 0 \\ 0 & 0 & 0 & 1
+    \end{bmatrix}$ \\ \vspace{0.3cm}
+    $\begin{bmatrix}
+        0 & 0 & 1 & 0 \\ 0 & 0 & 0 & 1  \\ \mathbf{1} & \mathbf{0} & \mathbf{0} & \mathbf{0} \\ 0 & 1 & 0 & 0
+        \end{bmatrix} \stackrel{\text{(2 3)}}{\longrightarrow} \begin{bmatrix}
+        0 & 0 & 1 & 0 \\ \mathbf{1} & \mathbf{0} & \mathbf{0} & \mathbf{0} \\ 0 & 0 & 0 & 1 \\ 0 & 1 & 0 & 0
+        \end{bmatrix}$ \pause $\stackrel{\text{(3 4)}}{\longrightarrow}
+        \begin{bmatrix}
+       0 & 0 & 1 & 0 \\ 1 & 0 & 0 & 0 \\ 0 & 1 & 0 & 0 \\ 0 & 0 & 0 & 1
+    \end{bmatrix} \vspace{0.3cm}
+        $
+        \pause 
+    $$\sigma_1 \circ (2 3) \circ (1 2) \circ (2 3) \circ (3 4) = \sigma_2$$
+\end{frame}
+\begin{frame}{The Shortest Path between Two Vertices of Permutohedron}
+     $\sigma_1 = (2,4,3,1) \hspace{3cm} \sigma_2 = (2,3,1,4)$ \\ \vspace{0.3cm}
+    $\begin{bmatrix}
+        \mathbf{4: } \\ \mathbf{2: } \\ \mathbf{1: } \\ \mathbf{3: }  
+    \end{bmatrix} \begin{bmatrix}
+        0 & 0 & 0 & 1 \\ 1 & 0 & 0 & 0 \\ 0 & 0 & 1 & 0 \\ 0 & 1 & 0 & 0
+    \end{bmatrix} \hspace{2cm}  \begin{bmatrix}
+        \mathbf{1: } \\ \mathbf{2: } \\ \mathbf{3: } \\ \mathbf{4: }  
+    \end{bmatrix} \begin{bmatrix}
+          0 & 0 & 1 & 0 \\ 1 & 0 & 0 & 0 \\ 0 & 1 & 0 & 0 \\ 0 & 0 & 0 & 1
+    \end{bmatrix} $ \\ \vspace{0.3cm}
+    \pause
+    Problem of finding the shortest path between two vertices is the same as problem of sorting an array swapping only adjacent elements.
+\end{frame}
+\begin{frame}{Permutohedron vertices coloring}
+\centering
+    \includegraphics[scale=0.35]{permutohedron-4.png}
+\end{frame}
+\section{Further Questions}
+\begin{frame}{Further Questions and Ideas.}
+    \begin{itemize}
+        \item[1] Finite Groups found in Permutohedron.
+        \item[2] Derangements in Permuatohedron.
+        \item[3] Inverse Permutations in Permutohedron. 
+        \item[4] Charachteristics of all Faces of Permutohedron.
+    \end{itemize}
+\end{frame}
+\begin{frame}{Literature}
+    
+\begin{thebibliography}{3}
+\bibitem{Convexity}
+A. Barvinok \emph{A Course in Convexity} American Mathematical Society, 2002. 
+\bibitem{Permutahedron_MIMUW}
+G. Lancia and P. Serafini \emph{Compact Extended Linear
+Programming Models} \url{http://ndl.ethernet.edu.et/bitstream/123456789/71466/1/77.pdf}
+\bibitem{Permutahedron_MIT}
+M. Goemans \emph{Smallest Compact Formulation for the Permutahedron} \url{https://math.mit.edu/~goemans/PAPERS/permutahedron.pdf}
+\end{thebibliography}
+\end{frame}
+
+\end{document}
